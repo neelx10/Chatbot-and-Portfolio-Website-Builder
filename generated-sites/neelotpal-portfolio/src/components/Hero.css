@@ -1,0 +1,80 @@
+#hero {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 7rem 1.5rem;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.2), transparent 32%),
+    linear-gradient(135deg, #0f172a 0%, #172554 52%, #0f172a 100%);
+}
+
+#hero::after {
+  position: absolute;
+  inset: 1.5rem;
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  border-radius: 1.5rem;
+  content: "";
+  pointer-events: none;
+}
+
+#hero h1,
+#hero h2,
+#hero p,
+#hero button {
+  position: relative;
+  z-index: 1;
+}
+
+#hero h1 {
+  color: #f8fafc;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  letter-spacing: -0.05em;
+}
+
+#hero h2 {
+  margin-top: 1rem;
+  color: #67e8f9;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 500;
+}
+
+#hero p {
+  max-width: 42rem;
+  margin: 1.5rem auto 2rem;
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+#hero button {
+  margin: 0.5rem;
+  padding: 0.8rem 1.25rem;
+  border: 1px solid rgba(103, 232, 249, 0.45);
+  border-radius: 999px;
+  background: #0891b2;
+  color: #f8fafc;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+#hero button:hover {
+  background: #06b6d4;
+  transform: translateY(-2px);
+}
+
+#hero button:focus-visible {
+  outline: 3px solid #facc15;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  #hero {
+    padding: 5rem 1rem;
+  }
+
+  #hero::after {
+    inset: 0.75rem;
+  }
+}
