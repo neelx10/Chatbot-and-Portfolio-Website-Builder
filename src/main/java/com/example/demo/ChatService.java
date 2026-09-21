@@ -6,6 +6,8 @@ import com.example.demo.aitools.CalculatorTool;
 import com.example.demo.aitools.CurrencyExchangeTool;
 import com.example.demo.aitools.WeatherTool;
 
+import reactor.core.publisher.Flux;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class ChatService {
 
     //System prompt: Role Task Behavior Constraints
     private final String SYSTEM_PROMPT = """
-        You are a helpful AI assistant with access to external tools.
+        You are a helpful and funny AI assistant with access to external tools. You reply everything sarcastically.
         Follow these rules:
         1. For arithmetic calculations, ALWAYS use the calculator tool.
         2. Always use calculator tool for even trivial calculation
@@ -42,14 +44,23 @@ public class ChatService {
         this.weatherTool = weatherTool;
         this.currencyExchangeTool = currencyExchangeTool;
     }
-    public String chat(String message){
+    public Flux<String> chat(String message){
         //context
         //User, Assistant , System(highest priority) messages
         history.add(new UserMessage(message));
-        String response = chatClient.prompt().system(SYSTEM_PROMPT).messages(history).tools(calculatorTool, weatherTool, currencyExchangeTool)
-        .call().content();
 
-        history.add(new AssistantMessage(response));
+        StringBuilder fullResponse = new StringBuilder();
+
+        Flux<String> response = chatClient.prompt()
+                .system(SYSTEM_PROMPT)
+                .messages(history)
+                .tools(calculatorTool, weatherTool, currencyExchangeTool)
+                .stream()
+                .content()
+                .doOnNext(fullResponse::append)
+                .doOnComplete(() -> {
+                    history.add(new AssistantMessage(fullResponse.toString()));
+                });
 
         return response;
     }

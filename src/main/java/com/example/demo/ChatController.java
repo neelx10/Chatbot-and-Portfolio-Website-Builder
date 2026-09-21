@@ -3,6 +3,8 @@ package com.example.demo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import reactor.core.publisher.Flux;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
@@ -17,7 +19,7 @@ public class ChatController {
     // }
 
     @PostMapping("/chat")
-    public String chat(@RequestBody String message) {
+    public Flux<String> chat(@RequestBody String message) {
         return chatService.chat(message);
     }
 }
