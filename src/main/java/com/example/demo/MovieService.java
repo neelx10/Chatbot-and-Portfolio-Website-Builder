@@ -3,7 +3,6 @@ package com.example.demo;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,7 +31,6 @@ public class MovieService {
 
     @PostConstruct
     public void initializeMovies() throws IOException{
-        System.out.println("initializeMovies() started");
         ClassPathResource resource = new ClassPathResource("movies.json");
 
         InputStream inputStream = resource.getInputStream();
