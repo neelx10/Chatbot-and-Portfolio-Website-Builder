@@ -54,8 +54,13 @@ public class ChatbotService {
             SearchRequest.builder()
             .query(question)
             .topK(4)
+            .similarityThreshold(0.75)
             .build()
         );
+
+        if(relevantChunks.isEmpty()){
+            return "I couldn't find any relevant information for this query.";
+        }
 
         StringBuilder context=new StringBuilder();
 
@@ -67,7 +72,7 @@ public class ChatbotService {
 
         String SYSTEM_PROMPT = """
                 You are an AI customer support assistant for our e-commerce company.
-                Answer the customer using ONL the company information provided below.
+                Answer the customer using ONLY the company information provided below.
                 If the answer is not available in the provided information, say:
                 "I don't have that information in the company documents."
 
